@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wallpaper/fullscreen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,11 +28,6 @@ class _HomePageState extends State<HomePage> {
             'Authorization':
                 'YnRlDpNy14jKEbFCXL3TAzQGaLtxyAfvEEG3Sp247JCD7d310VwCvR4m'
           });
-      print("*********************************");
-      print("*********************************");
-      print(response.body);
-      print("*********************************");
-      print("*********************************");
 
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
@@ -85,12 +81,17 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSpacing: 2),
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(4),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color.fromARGB(255, 234, 236, 232)),
-                    child: Image.network(images[index]["src"]["tiny"],
-                        fit: BoxFit.cover),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FullScreen(imageUrl:images[index]["src"]["large"])));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: const Color.fromARGB(255, 234, 236, 232)),
+                      child: Image.network(images[index]["src"]["tiny"],
+                          fit: BoxFit.cover),
+                    ),
                   ),
                 ),
               ),
